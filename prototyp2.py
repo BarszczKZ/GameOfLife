@@ -9,7 +9,7 @@ files = []
 btn=[]
 status=[]
 menu_status=0
-steps=1000
+steps=200
 orientation="n"
 
 def simulation():
@@ -19,7 +19,8 @@ def simulation():
     global orientation
     global steps
     for i in range(steps):
-        time.sleep(0)
+        time.sleep(0.1)
+        window.update()
         for i in range(len(files)):
             if status[i]=="m0":
                 btn[i].config(bg="black")
@@ -55,6 +56,7 @@ def simulation():
                         status[i-50]="m0"
                     elif status[i-50]==1:
                         status[i-50]="m1"
+                break
             elif status[i]=="m1":
                 btn[i].config(bg="white")
                 status[i]=0
@@ -89,7 +91,8 @@ def simulation():
                         status[i-50]="m0"
                     elif status[i-50]==1:
                         status[i-50]="m1"
-        window.update()       
+                break
+                
     return
 
 def click_update(btn,i):
@@ -128,6 +131,7 @@ def menu_fun():
             btn[i].config(state=NORMAL,bg="white")
         menu.config(text="Place Ant")
         menu_status=0
+        orientation="n"
     if menu_status==2:
         for i in range(len(files)):
             btn[i].config(state=DISABLED)
