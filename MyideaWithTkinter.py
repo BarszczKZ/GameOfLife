@@ -59,7 +59,7 @@ class LangtonsAntApp:
             if self.var1.get() == 1:
                 x = int(self.xAdd.get())
                 y = int(self.yAdd.get())
-                if x < 0 or x >= width or y < 0 or y >= height:
+                if x<0 or x>=width or y<0 or y>=height:
                     raise ValueError("Współrzędne poza zakresem planszy.")
             else:
                 x=width//2
@@ -69,40 +69,38 @@ class LangtonsAntApp:
             messagebox.showerror("Błąd", "Wprowadź poprawne liczby całkowite.")
             return
 
-        plansza = np.zeros((height, width))
-        x, y = width // 2, height // 2
-        direction = 0
-
+        plansza=np.zeros((height, width))
+        direction=0
         plt.figure(figsize=(8, 8))
 
         for i in range(steps):
-            if plansza[y, x] == 0:
-                direction = (direction - 1) % 4
-                plansza[y, x] = 1
+            if plansza[y,x]==0:
+                direction=(direction-1)%4
+                plansza[y,x]=1
             else:
-                direction = (direction + 1) % 4
-                plansza[y, x] = 0
+                direction=(direction+1)%4
+                plansza[y,x]=0
 
-            if direction == 0:
-                y -= 1
-            elif direction == 1:
-                x += 1
-            elif direction == 2:
-                y += 1
-            elif direction == 3:
-                x -= 1
+            if direction==0:
+                y-=1
+            elif direction==1:
+                x+=1
+            elif direction==2:
+                y+=1
+            elif direction==3:
+                x-=1
 
-            if x < 0:
-                x = width - 1
-            elif x >= width:
-                x = 0
+            if x<0:
+                x=width-1
+            elif x>=width:
+                x=0
 
-            if y < 0:
-                y = height - 1
-            elif y >= height:
-                y = 0
+            if y<0:
+                y=height-1
+            elif y>=height:
+                y=0
 
-            if i % 10 == 0:
+            if i%10==0:
                 plt.clf()
                 plt.imshow(plansza, cmap='binary')
                 plt.title(f'Langton\'s Ant after {i} steps')
@@ -114,6 +112,6 @@ class LangtonsAntApp:
         plt.show()
 
 if __name__ == "__main__":
-    root = tk.Tk()
-    app = LangtonsAntApp(root)
+    root=tk.Tk()
+    app=LangtonsAntApp(root)
     root.mainloop()
