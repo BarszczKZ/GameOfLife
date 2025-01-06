@@ -26,7 +26,7 @@ def simulation():   #to jest funkcja symulacji mrówki
         window.update()
         for i in range(size):
             if a_status[i]=="m":
-                movement(i)
+                ant_movement(i)
                 break
         if menu_status==0:
             break
@@ -92,7 +92,7 @@ def which_neighbor(i,ant_neighbors):
         status[i]=0
         
     
-def movement(i):
+def ant_movement(i):
     
     if i == 2499:
         ant_neighbors = [-49, -2450, -1, -50]
@@ -126,9 +126,7 @@ def count_neighbors(i, neighbors): # Liczy sąsiadów zadanej komórki i
     global status
     k=0
     for n in range(8):
-        w=0
-        w=i+neighbors[n]
-        if status[w]==1:
+        if status[i+neighbors[n]]==1:
             k+=1
     return k
 def gl_simulation():
