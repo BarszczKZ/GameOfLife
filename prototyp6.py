@@ -139,7 +139,7 @@ def color_change(i):    # wsm nie wiem czy gdzies tego użylem, jesli nie to moz
         btn[i].config(bg="white")
     elif status[i]==1:
         btn[i].config(bg="white")
-def count_neighbors(i, neighbors):
+def count_neighbors(i, neighbors): #Liczy żywych sąsiadów zadanej komórki
     global status
     k=0
     for n in range(8):
@@ -154,7 +154,7 @@ def gl_simulation():
         status_copy = [0] *2500
         for i in range(2500):
             k = 0
-            if i == 2499:
+            if i == 2499: 
                 neighbors = [-2450, -2499, -2451, -1, -51, -50, -99, -49]
             elif i == 2450:
                 neighbors = [-2450, -2401, -2449, +1, -1, -49, -50, +49]
