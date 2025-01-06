@@ -2,15 +2,14 @@ import numpy as np
 import matplotlib.pyplot as plt
 import tkinter as tk
 from tkinter import ttk, messagebox
-
+#Troszke mnie gpt poprawial :(( z tym checkboxem
 class LangtonsAntApp:
     
     def __init__(self, root):
         self.root = root
         self.root.title("Langton's Ant Simulation")
         self.root.geometry("400x500")
-
-        # Etykiety i pola do wprowadzania danych
+        
         self.label1=ttk.Label(root,text="Szerokość planszy:")
         self.label1.pack(pady=5)
         self.widthAdd = ttk.Entry(root)
@@ -29,7 +28,6 @@ class LangtonsAntApp:
         self.label3=ttk.Label(root,text="Czy chcesz zaczac od wybranego miejsca na planszy?")
         self.label3.pack(pady=5)
 
-        # Checkbox i pola do wprowadzania współrzędnych
         self.var1 = tk.IntVar()
         self.c1 = tk.Checkbutton(root, text="Chce zaczac z wybranych wspolrzednych", variable=self.var1, onvalue=1, offvalue=0, command=self.toggle_coordinates)
         self.c1.pack(pady=10)
@@ -42,7 +40,7 @@ class LangtonsAntApp:
         self.startButton = ttk.Button(root,text="Uruchom",command=self.run_simulation)
         self.startButton.pack(pady=20)
     def toggle_coordinates(self):
-        if self.var1.get() == 1:
+        if self.var1.get()==1:
             self.label4.pack(pady=5)
             self.xAdd.pack(pady=5)
             self.label5.pack(pady=5)
@@ -64,8 +62,8 @@ class LangtonsAntApp:
                 if x < 0 or x >= width or y < 0 or y >= height:
                     raise ValueError("Współrzędne poza zakresem planszy.")
             else:
-                x = width // 2
-                y = height // 2
+                x=width//2
+                y=height//2
 
         except ValueError:
             messagebox.showerror("Błąd", "Wprowadź poprawne liczby całkowite.")
