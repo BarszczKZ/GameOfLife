@@ -119,7 +119,7 @@ def count_neighbors(i, neighbors): # Liczy sąsiadów zadanej komórki
     for n in range(8):
         w=0
         w=i+neighbors[n]
-        if status[w]==1:
+        if btn_status[w]==1:
             k+=1
     return k
 def gl_simulation(): #symulacja "gry w życie"
