@@ -1,0 +1,42 @@
+#Usuwam opcje kilku mrówek, bo nie działa jednocześnie tylko opiera się na jednej komórce. Bo jak usuwałem break'a to psuło mi symulację.
+
+# Zmienne globalne
+czy_mrowka_istnieje = False  # Flaga wskazująca, czy mrówka jest już aktywna
+
+# Funkcja aktualizująca kliknięcia na gridzie
+def kliknij_aktualizuj(przycisk, i):
+    def funkcja_w_przyciski(przycisk, i):
+        global stan_komorek, stan_mrowki, typ_symulacji, czy_mrowka_istnieje
+        if typ_symulacji == "mrowka":  # Ustawienie mrówki
+            if not czy_mrowka_istnieje:  # Sprawdzamy, czy można dodać nową mrówkę
+                stan_mrowki[i] = "m"
+                przycisk.config(bg="red")
+                czy_mrowka_istnieje = True
+        else:  # Ustawienie stanu komórki dla gry w życie
+            stan_komorek[i] = 1 if stan_komorek[i] == 0 else 0
+            przycisk.config(bg="black" if stan_komorek[i] == 1 else "white")
+    return lambda: funkcja_w_przyciski(przycisk, i)
+
+# Funkcja ruchu mrówki
+def ruch_mrowki(i):
+    global kierunek, stan_komorek, stan_mrowki, przyciski, czy_mrowka_istnieje
+    sasiedzi_mrowki = pobierz_sasiadow_mrowki(i)
+    if stan_komorek[i] == 0:
+        kierunek = (kierunek + 1) % 4
+        stan_mrowki[i] = 0
+        nowa_pozycja = i + sasiedzi_mrowki[kierunek]
+        stan_mrowki[nowa_pozycja] = "m"
+        przyciski[nowa_pozycja].config(bg="red")
+        przyciski[i].config(bg="black")
+        stan_komorek[i] = 1
+    elif stan_komorek[i] == 1:
+        kierunek = (kierunek - 1) % 4
+        stan_mrowki[i] = 0
+        nowa_pozycja = i + sasiedzi_mrowki[kierunek]
+        stan_mrowki[nowa_pozycja] = "m"
+        przyciski[nowa_pozycja].config(bg="red")
+        przyciski[i].config(bg="white")
+        stan_komorek[i] = 0
+    # Jeśli mrówka opuści pole, usuwamy ją
+    if stan_mrowki[i] == 0:
+        czy_mrowka_istnieje = False
