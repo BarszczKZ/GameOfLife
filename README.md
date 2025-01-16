@@ -1,4 +1,4 @@
-Projekt: Mrówka Langtona + Gra w życie
+Projekt: Mrówka Langtona + Gra w życie. 
 Nad projektem pracował:
 -Kacper Zawiślański
 -Jan Mikołajczyk
