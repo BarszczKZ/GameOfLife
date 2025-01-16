@@ -1,0 +1,9 @@
+#Moge wprowadzić dodatkowe dwa if'y dla większej odporności.
+#Kod zakłada, że wartości te są liczbami dodatnimi i całkowitymi. Jeśli podamy niewłaściwe dane np. liczby ujemne, zera, mogłoby to spowodować błędy.
+
+if not isinstance(szerokosc, int) or not isinstance(wysokosc, int):
+    raise ValueError("Szerokość i wysokość siatki muszą być liczbami całkowitymi.")
+if szerokosc <= 0 or wysokosc <= 0:
+    raise ValueError("Szerokość i wysokość siatki muszą być dodatnie.")
+
+#Reszta wygląda chyba ok
