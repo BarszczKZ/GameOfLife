@@ -21,7 +21,7 @@ btn_status = [0] * size  #tworzy początkowa liste statusu przycisków "komórek
 orientation=3 #orientacja mrówki, można pomyslec nad opcją wyboru orientacji przed startem symulacji
 ant_status= [0] * size #tworzy liste na której zapisane jest  na której będzie zapisane w której komórce znajduje sie mrówka
 speed=500  #prędkość symulacji
-square_size=7 #rozmiar kwadratu na siatce
+square_size=350//sqrt_size #rozmiar kwadratu na siatce
 def ant_simulation():   #to jest funkcja symulacji mrówki
     global ant_status, size, active, speed
     for i in range(size):
@@ -117,9 +117,9 @@ def gl_simulation(): #symulacja "gry w życie"
     for i in range(s):
         k = 0
         if i == s-1: #poniższy kod sprawdza jakich sąsiadów posiada dana komórka
-            neighbors = [-s+sqr, -s+1, 1-s+sqr, -1, -sqr-1, -sqr, -(2*sqr)+1, 1-sqr]
+            neighbors = [-s+sqr, -s+1, 1-s+sqr, -1, -sqr-1, -sqr, -(2*sqr)+1, 1-sqr] 
         elif i == s-sqr:
-            neighbors = [-s+sqr, 1-s+2*sqr, -s-1+sqr, +1, -1, 1-sqr, -sqr, sqr-1]
+            neighbors = [-s+sqr, 1-s+2*sqr, -s+1+sqr, +1, -1, 1-sqr, -sqr, sqr-1]
         elif i ==0:
             neighbors = [1+s-sqr, s-sqr, s-1, +1, 2*sqr-1, sqr, sqr-1, sqr+1]
         elif i==sqr-1:
@@ -169,7 +169,7 @@ def change_size_fun():
     grid_window = Toplevel(window)
     if ant_placed==True:
         ant_placed=False
-    square_size=400//sqrt_size
+    square_size=350//sqrt_size
     for i in range(size): #tutaj tworzy sie siatka przycisków
         btn.append(Button(grid_window,image=foto,width=square_size,height=square_size))
         btn[i].grid(row=int(i//sqrt_size),column=int(i%sqrt_size),sticky="w")
@@ -213,9 +213,11 @@ def change_mode_fun():
     if mode_btn.cget("text")=="Langstone Ant Mode":
         mode = "Life"
         mode_btn.config(text="Game of Life Mode")
+
     elif mode_btn.cget("text")=="Game of Life Mode":
         mode = "Ant"
         mode_btn.config(text="Langstone Ant Mode")
+
 
 def change_speed_fun():
     global change_speed, speed
