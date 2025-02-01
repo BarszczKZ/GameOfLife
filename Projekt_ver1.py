@@ -19,7 +19,7 @@ square_size=350//sqrt_size #rozmiar kwadratu na siatce
 
 def ant_simulation():   #to jest funkcja symulacji mrówki
     global ant_status, size, active, speed
-    def which_neighbor(i,ant_neighbors): #przesuwa mrówke do właściwego sąsiada i obraca ją
+    def ant_movement(i,ant_neighbors): #przesuwa mrówke do właściwego sąsiada i obraca ją
         global orientation, btn_status, ant_status, btn
         if btn_status[i]==0:
             orientation=(orientation+1)%4#orientacja koreluje z miejscem "sąsiada" na liście wiec w zaleznosci od orientacji wybierany jest odpowiedni sąsiad
@@ -28,7 +28,6 @@ def ant_simulation():   #to jest funkcja symulacji mrówki
             btn[i+ant_neighbors[orientation]].config(bg="red")
             btn[i].config(bg="black")
             btn_status[i]=1
-            
         elif btn_status[i]==1:
             orientation-=1
             if orientation<0:
@@ -38,7 +37,7 @@ def ant_simulation():   #to jest funkcja symulacji mrówki
             btn[i+ant_neighbors[orientation]].config(bg="red")
             btn[i].config(bg="white")
             btn_status[i]=0
-    def ant_movement(i): #funkcja która sprawdza czy mrówka nie jest na krawędzi siatki i przesuwa ją do odpowiedniego sąsiada
+    def which_neighbor(i): #funkcja która sprawdza jakie sąsiedztwo ma dana komórka i wywołuje funkcję ant_movement
         global size,  sqrt_size
         s=size
         sqr=sqrt_size
@@ -60,21 +59,22 @@ def ant_simulation():   #to jest funkcja symulacji mrówki
             ant_neighbors = [+1, -s+sqr, -1, -sqr]
         else:
             ant_neighbors = [+1, sqr, -1, -sqr]
-        which_neighbor(i, ant_neighbors)
+        ant_movement(i, ant_neighbors)
     
     for i in range(size):
         if ant_status[i]=="m":
-            ant_movement(i)
+            which_neighbor(i)
             break
     if active==False: #sprawdza czy symulacja jest aktywna
         return
     window.after(speed,ant_simulation) #rekurencyjne wywołanie funkcji symulacji mrówki
 
 def click_update(btn,i):   # ta funkcja jest od przycisków na siatce
-    def in_func(btn,i): 
+    def in_func(btn,i): #funkcja wewnętrzna która zmienia status komórki na żywą "1" lub martwą "0" w zależności od tego czy była żywa czy martwa
         global btn_status, ant_status, ant_placed
         if start_stop.cget("text")=="Place Ant": #sprawdza czy napis na przycisku start/stop jest "Place Ant" i jeśli tak to umieszcza mrówkę w komórce na którą kliknięto
             ant_status[i]="m"
+            print(ant_status)
             start_stop.config(text="Start")
             start_stop.config(state="normal")
         if btn_status[i]==0 and ant_status[i]!="m": #zmienia status komórki na żywą "1" jeśli była martwa "0" i na odwrót
@@ -224,7 +224,7 @@ clear_grid = Button(menu_frame,text="Clear grid", font=("Arial",20), width=18, h
 clear_grid.grid(sticky="w")
 
 #poniżej widgety do zmmiany rozmiaru siatki
-change_size = Label(menu_frame, text="Change size (1-99)", font=("Arial",20))
+change_size = Label(menu_frame, text="Change size (2-99)", font=("Arial",20))
 change_size.grid(sticky="w")
 change_size_btn = Button(menu_frame, text="Change", font=("Arial",20), width=18, height=3, command = change_size_fun)
 change_size_btn.grid(sticky="w")
