@@ -1,0 +1,63 @@
+def gl_simulation(): #symulacja "gry w życie"
+    global btn_status, btn, size, sqrt_size, active, speed
+    s= size
+    sqr= sqrt_size
+    btn_status_copy = [0] *s
+    def count_neighbors(i, neighbors): # Liczy sąsiadów zadanej komórki 
+        global btn_status
+        k=0
+        for n in range(8):
+            w=0
+            w=i+neighbors[n]
+            if btn_status[w]==1:
+                k+=1
+        return k
+    for i in range(s): 
+        k = 0
+        if i == s-1: #poniższy kod sprawdza jakich sąsiadów posiada dana komórka
+            neighbors = [-s+sqr, -s+1, 1-s+sqr, -1, -sqr-1, -sqr, -(2*sqr)+1, 1-sqr] 
+        elif i == s-sqr:
+            neighbors = [-s+sqr, 1-s+2*sqr, -s+1+sqr, +1, -1, 1-sqr, -sqr, sqr-1]
+        elif i ==0:
+            neighbors = [1+s-sqr, s-sqr, s-1, +1, 2*sqr-1, sqr, sqr-1, sqr+1]
+        elif i==sqr-1:
+            neighbors = [s-sqr, s-2*sqr+1, s-sqr-1, +1, -1, 1-sqr, sqr, sqr-1]
+        elif (i + 1) % sqr == 0: 
+            neighbors = [-(2*sqr)+1, 1-sqr, +1, sqr, sqr-1, -sqr-1, -1, -sqr]
+        elif i % sqr == 0:
+            neighbors = [2*sqr-1, sqr-1, -1, -sqr, 1-sqr, +1, sqr+1, sqr]
+        elif i < sqr:
+            neighbors = [+1, -1, sqr-1, sqr, sqr+1, 1+s-sqr, s-sqr-1, s-sqr] 
+        elif i > s-sqr:
+            neighbors = [1-s+sqr, -s-1+sqr, -s+sqr, +1, -1, -sqr, -sqr-1, 1-sqr]
+        else:
+            neighbors = [+1, -1, sqr, -sqr, -sqr-1, sqr+1, 1-sqr, sqr-1]
+
+        k = count_neighbors(i, neighbors)
+
+        if btn_status[i] == 0 and k == 3: #zmienia status komórki na żywą "1" jeśli była martwa "0" i ma 3 żywych sąsiadów
+            btn_status_copy[i] = 1
+            btn[i].config(bg="black")
+        elif btn_status[i] == 1: #zmienia status komórki na martwą "0" jeśli była żywa "1" i ma mniej niż 2 lub więcej niż 3 żywych sąsiadów
+            if k != 2 and k != 3:
+                btn_status_copy[i] = 0
+                btn[i].config(bg="white")
+            else: #pozostawia komórkę żywą "1" jeśli ma 2 lub 3 żywych sąsiadów
+                btn_status_copy[i] = 1
+    
+    btn_status.clear()
+    btn_status.extend(btn_status_copy)
+    if active==False: #sprawdza czy symulacja jest aktywna
+        return
+    window.after(speed,gl_simulation) #rekurencyjne wywołanie funkcji symulacji "gry w życie"
+
+
+
+
+Funkcja ta tworzy symulacje gry w życie.
+
+Dla każdego indeksu listy komórek dobiera dla niej odpowiednich "sąsiadów" a następnie podlicza ilu z nich jest żywych.
+Następnie zgodnie z regułami gry w życie ustala czy komórka powinna być żywa czy martwa i zapisuje te informacje na liście
+btn_status_copy, która po wykonaniu całej pętli zastępuje btn_status.
+Następnie funkcja uruchamia się ponownie. (O ile dalej jest aktywna)
+

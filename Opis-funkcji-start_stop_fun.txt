@@ -1,0 +1,29 @@
+def start_stop_fun():
+    global start_stop, mode, ant_placed, active, clear_grid, change_size_btn, mode_btn 
+    if start_stop.cget("text")=="Start":
+        active=True
+        start_stop.config(text="Stop") 
+        clear_grid.config(state="disabled") #blokuje przyciski aby nie można było zmienić rozmiaru siatki, czy wyczyścić siatki podczas symulacji
+        change_size_btn.config(state="disabled")
+        mode_btn.config(state="disabled")
+        if mode=="Ant" and ant_placed==False: #sprawdza czy mrówka została umieszczona na siatce
+            start_stop.config(text="Place Ant") #zmienia napis na przycisku aby zasygnalizować żeby umieścić mrówkę na siatce
+            start_stop.config(state="disabled") #blokuje przycisk startu aby nie można było zmienić trybu symulacji przed umieszczeniem mrówki
+            ant_placed=True #zmienia zmienną która sprawdza czy mrówka została umieszczona na siatce
+        elif mode=="Ant" and ant_placed==True:
+            ant_simulation()
+        elif mode=="Life":
+            gl_simulation()
+    elif start_stop.cget("text")=="Stop":
+        start_stop.config(text="Start")
+        active=False #zatrzyuje działające symulacje
+        clear_grid.config(state="normal") #odblokowuje przyciski
+        change_size_btn.config(state="normal")
+        mode_btn.config(state="normal")
+
+
+Służy do uruchamiania symulacji i jej zatrzymywania.
+Gdy wciśniemy przycisk start, uruchamia odpowiednią symulacje, w zależności od zmiennej "mode", i wyłącza wszystkie przyciski 
+z wyjątkiem zmiany prędkości, stop, i komórek na siatce (dlatego można wchodzic z symulacją w interakcje w czasie jej trwania).
+Po wciśnięciu przycisku ponownie, zatrzymuje symulacje i odblokowuje przyciski.
+Jeśli jesteśmy w trybie "Ant" to po wciśnięciu start, programm będzie czekał na postawienie mrówki.

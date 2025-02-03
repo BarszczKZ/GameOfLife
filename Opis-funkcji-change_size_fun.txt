@@ -1,0 +1,39 @@
+def change_size_fun():
+    global size, sqrt_size, btn, window, grid_window, btn_status, ant_status, ant_placed, change_size_btn, square_size
+    if int(size_entry.get())== sqrt_size: #sprawdza czy rozmiar siatki jest taki sam jak poprzedni
+        return
+    if size_entry.get().isdigit()==False: #sprawdza czy rozmiar siatki jest liczbą
+        size_entry.delete(0, END) #jeśli nie to usuwa napis z pola entry
+        size_entry.insert(0, "Insert number!") 
+    if int(size_entry.get())<2 or int(size_entry.get())>99: #sprawdza czy rozmiar siatki mieści się w zakresie 2-99
+        size_entry.delete(0, END) #jeśli nie to usuwa napis z pola entry 
+        size_entry.insert(0, "Wrong size!") #jeśli nie to wstawia napis "2-99" do pola entry
+        return
+    size = int(size_entry.get())**2 #zmienia rozmiar siatki na podany przez użytkownika
+    sqrt_size=int(size**(1/2))
+    btn.clear() #niszczy poprzednią listę przycisków
+    btn_status.clear() #niszczy poprzednią listę statusów przycisków
+    btn_status = [0] * size #tworzy nową listę statusów przycisków
+    ant_status.clear() #niszczy poprzednią listę statusów mrówki
+    ant_status = [0] * size #tworzy nową listę statusów mrówki
+    grid_window.destroy() #niszczy poprzednią siatkę przycisków
+    grid_window = Toplevel(window)
+    if mode=="Life":
+        grid_window.title("Game of Life")
+    elif mode=="Ant":
+        grid_window.title("Langstone Ant")
+    if ant_placed==True:
+        ant_placed=False
+    square_size=350//sqrt_size 
+    for i in range(size): #tutaj tworzy sie siatka przycisków
+        btn.append(Button(grid_window,image=foto,width=square_size,height=square_size))
+        btn[i].grid(row=int(i//sqrt_size),column=int(i%sqrt_size),sticky="w")
+        btn[i].config(bg="white", command=click_update(btn[i],i))
+
+
+
+Funkcja ta jest odpowiedzialna za tworzenie nowej siatki przycisków po zmianie rozmiaru.
+Jest uruchamiana po wciśnięciu przycisku "Change", funkcja się nie wykona przy próbie stworzenia siatki o rozmiarze spoza 
+przedziału, lub gdy nie została podana liczba, lub gdy podany rozmiar jest taki sam jak obecny.
+
+POdczas wykonania tworzy ona od nowa wszystkie zmienne zależne od rozmiaru, usuwa stare okno i na jego miejsce umieszcza nowe.
