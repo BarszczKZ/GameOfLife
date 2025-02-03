@@ -10,7 +10,7 @@ Przed uruchomieniem aplikacji upewnij się, że masz zainstalowaną wersję Pyth
 
 ### Instalacja
 
-Python oraz `tkinter` są domyślnie dostępne w większości instalacji Pythona. Jeśli nie masz ich zainstalowanych, możesz je dodać za pomocą:
+ Jeśli nie masz ich zainstalowanego `tkinter`, możesz go dodać za pomocą:
 
 ```sh
 pip install tk
@@ -18,12 +18,12 @@ pip install tk
 
 ## Jak uruchomić aplikację?
 
-1. Pobierz plik `app.py` do swojego lokalnego katalogu.
+1. Pobierz plik `Projekt_ver1.py` do swojego lokalnego katalogu.
 2. Otwórz terminal lub wiersz poleceń.
-3. Przejdź do katalogu, w którym znajduje się plik `app.py`.
+3. Przejdź do katalogu, w którym znajduje się plik `Projekt_ver1.py`.
 4. Uruchom aplikację za pomocą komendy:
 
 ```sh
-python app.py
+python Projekt_ver1.py
 ```
 
