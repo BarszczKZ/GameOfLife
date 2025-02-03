@@ -1,0 +1,62 @@
+def ant_simulation():   #to jest funkcja symulacji mrówki
+    global ant_status, size, active, speed
+    def ant_movement(i,ant_neighbors): #przesuwa mrówke do właściwego sąsiada i obraca ją
+        global orientation, btn_status, ant_status, btn
+        if btn_status[i]==0:
+            orientation=(orientation+1)%4#orientacja koreluje z miejscem "sąsiada" na liście wiec w zaleznosci od orientacji wybierany jest odpowiedni sąsiad
+            ant_status[i]=0
+            ant_status[i+ant_neighbors[orientation]]="m"
+            btn[i+ant_neighbors[orientation]].config(bg="red")
+            btn[i].config(bg="black")
+            btn_status[i]=1
+        elif btn_status[i]==1:
+            orientation-=1
+            if orientation<0:
+                orientation=3
+            ant_status[i]=0
+            ant_status[i+ant_neighbors[orientation]]="m"
+            btn[i+ant_neighbors[orientation]].config(bg="red")
+            btn[i].config(bg="white")
+            btn_status[i]=0
+    def which_neighbor(i): #funkcja która sprawdza jakie sąsiedztwo ma dana komórka i wywołuje funkcję ant_movement
+        global size,  sqrt_size
+        s=size
+        sqr=sqrt_size
+        if i == s-1:  #poniższy kod sprawdza jakich sąsiadów posiada dana komórka
+            ant_neighbors = [1-sqr, -s+sqr, -1, -sqr]
+        elif i == s-sqr:
+            ant_neighbors = [+1, -s+sqr, sqr-1, -sqr]
+        elif i ==0:
+            ant_neighbors = [+1, sqr, sqr-1, s-sqr]
+        elif i==sqr-1:
+            ant_neighbors = [1-sqr, sqr, -1, s-sqr]
+        elif (i + 1) % sqr == 0:
+            ant_neighbors = [1-sqr, sqr, -1, -sqr]
+        elif i % sqr == 0 :
+            ant_neighbors = [+1, sqr, sqr-1, -sqr]
+        elif i < sqr :
+            ant_neighbors = [+1, sqr, -1, s-sqr]
+        elif i > s-sqr :
+            ant_neighbors = [+1, -s+sqr, -1, -sqr]
+        else:
+            ant_neighbors = [+1, sqr, -1, -sqr]
+        ant_movement(i, ant_neighbors)
+    
+    for i in range(size):
+        if ant_status[i]=="m":
+            which_neighbor(i)
+            break
+    if active==False: #sprawdza czy symulacja jest aktywna
+        return
+    window.after(speed,ant_simulation) #rekurencyjne wywołanie funkcji symulacji mrówki
+
+
+Funkcja ta tworzy symulacje na siatce przycisków.
+Korzystając z pętli for, skanuje po kolei komórki w poszukianiu tej ze statusem "m" (posiadającej mrówke)
+Następnie uruchamia funkcje which_neighbor dla zanalezionego indeksu.
+Funkcja which_neighbor wybiera odpowiednich "sąsiadów" dla zadanego indeksu, ponieważ na krawędziach indeksy sąsiadów różnią się
+od tych dla komórek w środku gridu. Niezależnie od rozmiaru siatki sąsiadów można obliczyć przy znajomosci rozmiaru siatki i
+pierwiastka kwadratowego tego rozmiaru. Po wybraniu odpowiedniej listy sąsiadów uruchamia funkcje ant_movement, która
+odpowiednio "przesuwa" status posiadania mrówki do odpowiedniego sąsiada w zależności od globalnej zmmiennej orietacji i statusu 
+żywotności komórki, następnie je same zmienia wraz z kolorami komórek na odpowiednie. Po wykonnaniu funkcji ant_movement
+przerywa pętle for i uruchamia funkcje ant_simulation ponownie. (O ile dalej jest aktywna)

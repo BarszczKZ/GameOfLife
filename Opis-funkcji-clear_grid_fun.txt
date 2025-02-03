@@ -1,0 +1,14 @@
+def clear_grid_fun():
+    global btn_status, btn, ant_placed, ant_status
+    for i in range(size):
+        btn_status[i]=0
+        if ant_status[i]=="m":
+            ant_status[i]=0
+        btn[i].config(bg="white")
+    if ant_placed==True:
+        ant_placed=False
+
+
+Funkcja ta resetuje wszystkie komórki.
+Zmimenia ich status na mart, usuwa z nich mrówke, i zmienia 
+Umożliwia też ponowne rozmieszczenie mrówki.

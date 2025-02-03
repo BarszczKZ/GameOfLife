@@ -1,0 +1,15 @@
+def change_mode_fun():
+    global mode_btn, mode
+    if mode_btn.cget("text")=="Langstone Ant Mode":
+        mode = "Life"
+        mode_btn.config(text="Game of Life Mode")
+        grid_window.title("Game of Life")   
+
+    elif mode_btn.cget("text")=="Game of Life Mode":
+        mode = "Ant"
+        mode_btn.config(text="Langstone Ant Mode")
+        grid_window.title("Langstone Ant")
+
+
+Funkcja ta zmienia zmieną "mode", która odpowiada za uruchommienie odpowiedniej symulacji przy wciśnięciu start.
+Zmienia też tytuł okna z siatką.

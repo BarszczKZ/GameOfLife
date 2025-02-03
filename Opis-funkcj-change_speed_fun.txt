@@ -1,0 +1,18 @@
+def change_speed_fun():
+    global change_speed, speed
+    if change_speed.cget("text")=="Speed: 1":
+        speed=200
+        change_speed.config(text="Speed: 2")
+    elif change_speed.cget("text")=="Speed: 2":
+        speed=10
+        change_speed.config(text="Speed: 3")
+    elif change_speed.cget("text")=="Speed: 3":
+        speed=1
+        change_speed.config(text="Speed: 4")
+    elif change_speed.cget("text")=="Speed: 4":
+        speed=500
+        change_speed.config(text="Speed: 1")
+
+
+Zmienia wartość zmmiennej "speed" znajdującej się wewnątrz metody .after(), która uruchamima funkcje symulacji z odpowiednim
+opóźnieniem zależnym od "speed"  
