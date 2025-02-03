@@ -1,33 +1,22 @@
-def click_update(btn,i):   # ta funkcja jest od przycisków na siatce
-    def in_func(btn,i): #funkcja wewnętrzna która zmienia status komórki na żywą "1" lub martwą "0" w zależności od tego czy była żywa czy martwa
-        global btn_status, ant_status, ant_placed
-        if start_stop.cget("text")=="Place Ant": #sprawdza czy napis na przycisku start/stop jest "Place Ant" i jeśli tak to umieszcza mrówkę w komórce na którą kliknięto
-            ant_status[i]="m"
-            start_stop.config(text="Start")
-            start_stop.config(state="normal")
-        if btn_status[i]==0: #zmienia status komórki na żywą "1" jeśli była martwa "0" i na odwrót
-            btn_status[i]=1
-        elif btn_status[i]==1:
-            btn_status[i]=0
-        if btn_status[i]==1:
-            btn.config(bg="black") #zmienia kolor komórki na czarny jeśli jest żywa
-        if btn_status[i]==0:
-            btn.config(bg="white") #zmienia kolor komórki na biały jeśli jest martwa
-        if ant_status[i]=="m" and mode=="Ant": #zmienia kolor komórki na czerwony jeśli jest w niej mrówka
-            btn.config(bg="red") #zmienia kolor komórki na czerwony jeśli jest w niej mrówka
-    return(lambda: in_func(btn,i))
+def click_update(btn, i):   # ta funkcja jest od przycisków na siatce
+    #funkcja wewnętrzna która zmienia status komórki na żywą "1" lub martwą "0" w zależności od tego czy była żywa czy martwa
+    global btn_status, ant_status, ant_placed, cell
+    if start_stop.cget("text")=="Place Ant": #sprawdza czy napis na przycisku start/stop jest "Place Ant" i jeśli tak to umieszcza mrówkę w komórce na którą kliknięto
+        cell[i]["Ant_Status"]="m"
+        print(cell[i],i)
+        start_stop.config(text="Start")
+        start_stop.config(state="normal")
+    cell[i]["Life_Status"] = 1 - cell[i]["Life_Status"]
+    if cell[i]["Life_Status"]==1:
+        btn.config(bg="black") #zmienia kolor komórki na czarny jeśli jest żywa
+    if cell[i]["Life_Status"]==0:
+        btn.config(bg="white") #zmienia kolor komórki na biały jeśli jest martwa
+    if cell[i]["Ant_Status"]=="m" and mode=="Ant": #zmienia kolor komórki na czerwony jeśli jest w niej mrówka
+        btn.config(bg="red") #zmienia kolor komórki na czerwony jeśli jest w niej mrówka
 
 
 Funkcja ta służy do obsługiwania akcji przy wciśnięciu przycisków "gridu".
-Przy wygenerowaniu siatki funkcja pobiera informacje który przycisk (jego miejsce na liście) został wciśnięty, 
-oraz sama lista przycisków, po to by przekazać tę 
-informacje do zdefiniowanej funkcji wewnętrznej, która odpowiada za akcje przy kliknięciu. Jest ona skonstruowana
-w ten sposób, ponieważ python wykonuje każdą funkcje z zadanymi zmiennymmi, od razu po "odczytaniu" kodu, 
-a funkcja musiala mieć zadane "i", aby móc korzystać wewnątrz z osobnych list o ty samym indeksie
-Dopiero stworzenie wewnętrznej funkcji poprzedzonej funkcją "lambda" pozwoliło na poprawne działanie przycisków.
+Przy wygenerowaniu siatki funkcja pobiera informacje który przycisk (oraz jego miejsce na liście) został wciśnięty, 
+aby funkcja nie wykonała sie od razu po uruchomieniu została poprzedzona funkcją lambda.
+Zmienia status komórki z martwej na żywą i na odwrót, i zmienia ich kolor, w trybie mmrówki langtona ustawia mmrówke na wybrane pole.
 
-Funkcja korzysta ze zmiennej globalnej btn_status na której zapisany jest stan kommórki, czy jest żywa lub martwa i w 
-zależności od niego zmienia przy kliknięciu status i kolor komórki.
-Ponieważ komórka może miec równocześnie żywa, martwa i mieć mrówkę to korzysta ona również ze zmiennej ant_status
-w który można nadać gdy jesteśmy w trybie wyboru miejsca dla mmrówki. Przy postawieniu mrówki funkcja zmienia kolor przycisku
-na czerwony.

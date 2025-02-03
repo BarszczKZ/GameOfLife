@@ -1,5 +1,5 @@
 def change_size_fun():
-    global size, sqrt_size, btn, window, grid_window, btn_status, ant_status, ant_placed, change_size_btn, square_size
+    global size, sqrt_size, window, grid_window, ant_placed, change_size_btn, square_size, cell
     if int(size_entry.get())== sqrt_size: #sprawdza czy rozmiar siatki jest taki sam jak poprzedni
         return
     if size_entry.get().isdigit()==False: #sprawdza czy rozmiar siatki jest liczbą
@@ -11,11 +11,7 @@ def change_size_fun():
         return
     size = int(size_entry.get())**2 #zmienia rozmiar siatki na podany przez użytkownika
     sqrt_size=int(size**(1/2))
-    btn.clear() #niszczy poprzednią listę przycisków
-    btn_status.clear() #niszczy poprzednią listę statusów przycisków
-    btn_status = [0] * size #tworzy nową listę statusów przycisków
-    ant_status.clear() #niszczy poprzednią listę statusów mrówki
-    ant_status = [0] * size #tworzy nową listę statusów mrówki
+    cell = [{"Button": None, "Life_Status": 0, "Ant_Status": 0} for _ in range(size)]
     grid_window.destroy() #niszczy poprzednią siatkę przycisków
     grid_window = Toplevel(window)
     if mode=="Life":
@@ -26,9 +22,9 @@ def change_size_fun():
         ant_placed=False
     square_size=350//sqrt_size 
     for i in range(size): #tutaj tworzy sie siatka przycisków
-        btn.append(Button(grid_window,image=foto,width=square_size,height=square_size))
-        btn[i].grid(row=int(i//sqrt_size),column=int(i%sqrt_size),sticky="w")
-        btn[i].config(bg="white", command=click_update(btn[i],i))
+        cell[i]["Button"]=Button(grid_window,image=foto,width=square_size,height=square_size)
+        cell[i]["Button"].grid(row=int(i//sqrt_size),column=int(i%sqrt_size),sticky="w")
+        cell[i]["Button"].config(bg="white", command= lambda btn=cell[i]["Button"], idx=i: click_update(btn,idx))
 
 
 
