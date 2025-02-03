@@ -4,39 +4,36 @@ window = Tk()
 window.title("Project Menu")
 menu_frame = Frame(window)
 menu_frame.grid(sticky="w")
-size = 2500 #jest to rozmiar siatki, na początku ustawiony na 50x50
+size = 100 #jest to rozmiar siatki, na początku ustawiony na 50x50
 foto = PhotoImage(width=0, height=0) #trik aby przyciski były kwadratowe
 mode = "Ant" #tryb symulacji, na początku ustawiony na mrówkę
 ant_placed = False #zmienna która sprawdza czy mrówka została już umieszczona na siatce
 active = False #zmienna która sprawdza czy symulacja jest aktywna
-sqrt_size=int(size**(1/2)) #pierwiastek z rozmiaru siatki
-btn=[] # deklaracja lisy przycisków na siatce
-btn_status = [0] * size  #tworzy początkowa liste statusu przycisków "komórek" (każda komórka na starcie jest martwa "0", żywa ma status "1"), w zależności od statusu zmienia sie kolor komórki 
-orientation=3 #orientacja mrówki, można pomyslec nad opcją wyboru orientacji przed startem symulacji
-ant_status= [0] * size #tworzy liste na której zapisane jest  na której będzie zapisane w której komórce znajduje sie mrówka
+sqrt_size=int(size**(1/2)) #pierwiastek z rozmiaru siatkiorientation=3 #orientacja mrówki, można pomyslec nad opcją wyboru orientacji przed startem symulacji
 speed=500  #prędkość symulacji
 square_size=350//sqrt_size #rozmiar kwadratu na siatce
-
+cell = [{"Button": None, "Life_Status": 0, "Ant_Status": 0} for _ in range(size)] #lista która przechowuje statusy komórek, statusy mrówki i statusy komórek w symulacji "gry w życie"
+orientation=3 #orientacja mrówki, można pomyslec nad opcją wyboru orientacji przed startem symulacji
 def ant_simulation():   #to jest funkcja symulacji mrówki
-    global ant_status, size, active, speed
+    global size, active, speed, cell
     def ant_movement(i,ant_neighbors): #przesuwa mrówke do właściwego sąsiada i obraca ją
-        global orientation, btn_status, ant_status, btn
-        if btn_status[i]==0:
+        global orientation, cell
+        if cell[i]["Life_Status"]==0:
             orientation=(orientation+1)%4#orientacja koreluje z miejscem "sąsiada" na liście wiec w zaleznosci od orientacji wybierany jest odpowiedni sąsiad
-            ant_status[i]=0
-            ant_status[i+ant_neighbors[orientation]]="m"
-            btn[i+ant_neighbors[orientation]].config(bg="red")
-            btn[i].config(bg="black")
-            btn_status[i]=1
-        elif btn_status[i]==1:
+            cell[i]["Ant_Status"]=0
+            cell[i+ant_neighbors[orientation]]["Ant_Status"]="m"
+            cell[i+ant_neighbors[orientation]]["Button"].config(bg="red")
+            cell[i]["Button"].config(bg="black")
+            cell[i]["Life_Status"]=1
+        elif cell[i]["Life_Status"]==1:
             orientation-=1
             if orientation<0:
                 orientation=3
-            ant_status[i]=0
-            ant_status[i+ant_neighbors[orientation]]="m"
-            btn[i+ant_neighbors[orientation]].config(bg="red")
-            btn[i].config(bg="white")
-            btn_status[i]=0
+            cell[i]["Ant_Status"]=0
+            cell[i+ant_neighbors[orientation]]["Ant_Status"]="m"
+            cell[i+ant_neighbors[orientation]]["Button"].config(bg="red")
+            cell[i]["Button"].config(bg="white")
+            cell[i]["Life_Status"]=0
     def which_neighbor(i): #funkcja która sprawdza jakie sąsiedztwo ma dana komórka i wywołuje funkcję ant_movement
         global size,  sqrt_size
         s=size
@@ -62,52 +59,52 @@ def ant_simulation():   #to jest funkcja symulacji mrówki
         ant_movement(i, ant_neighbors)
     
     for i in range(size):
-        if ant_status[i]=="m":
+        if cell[i]["Ant_Status"]=="m":
             which_neighbor(i)
             break
     if active==False: #sprawdza czy symulacja jest aktywna
         return
     window.after(speed,ant_simulation) #rekurencyjne wywołanie funkcji symulacji mrówki
 
-def click_update(btn,i):   # ta funkcja jest od przycisków na siatce
-    def in_func(btn,i): #funkcja wewnętrzna która zmienia status komórki na żywą "1" lub martwą "0" w zależności od tego czy była żywa czy martwa
-        global btn_status, ant_status, ant_placed
-        if start_stop.cget("text")=="Place Ant": #sprawdza czy napis na przycisku start/stop jest "Place Ant" i jeśli tak to umieszcza mrówkę w komórce na którą kliknięto
-            ant_status[i]="m"
-            start_stop.config(text="Start")
-            start_stop.config(state="normal")
-        if btn_status[i]==0: #zmienia status komórki na żywą "1" jeśli była martwa "0" i na odwrót
-            btn_status[i]=1
-        elif btn_status[i]==1:
-            btn_status[i]=0
-        if btn_status[i]==1:
-            btn.config(bg="black") #zmienia kolor komórki na czarny jeśli jest żywa
-        if btn_status[i]==0:
-            btn.config(bg="white") #zmienia kolor komórki na biały jeśli jest martwa
-        if ant_status[i]=="m" and mode=="Ant": #zmienia kolor komórki na czerwony jeśli jest w niej mrówka
-            btn.config(bg="red") #zmienia kolor komórki na czerwony jeśli jest w niej mrówka
-    return(lambda: in_func(btn,i)) 
+
+
+def click_update(btn, i):   # ta funkcja jest od przycisków na siatce
+    #funkcja wewnętrzna która zmienia status komórki na żywą "1" lub martwą "0" w zależności od tego czy była żywa czy martwa
+    global btn_status, ant_status, ant_placed, cell
+    if start_stop.cget("text")=="Place Ant": #sprawdza czy napis na przycisku start/stop jest "Place Ant" i jeśli tak to umieszcza mrówkę w komórce na którą kliknięto
+        cell[i]["Ant_Status"]="m"
+        print(cell[i],i)
+        start_stop.config(text="Start")
+        start_stop.config(state="normal")
+    cell[i]["Life_Status"] = 1 - cell[i]["Life_Status"]
+    if cell[i]["Life_Status"]==1:
+        btn.config(bg="black") #zmienia kolor komórki na czarny jeśli jest żywa
+    if cell[i]["Life_Status"]==0:
+        btn.config(bg="white") #zmienia kolor komórki na biały jeśli jest martwa
+    if cell[i]["Ant_Status"]=="m" and mode=="Ant": #zmienia kolor komórki na czerwony jeśli jest w niej mrówka
+        btn.config(bg="red") #zmienia kolor komórki na czerwony jeśli jest w niej mrówka
+
 
 def gl_simulation(): #symulacja "gry w życie"
-    global btn_status, btn, size, sqrt_size, active, speed
+    global btn_status, btn, size, sqrt_size, active, speed, cell
     s= size
     sqr= sqrt_size
-    btn_status_copy = [0] *s
+    cell_status_copy = [0] *s
     def count_neighbors(i, neighbors): # Liczy sąsiadów zadanej komórki 
-        global btn_status
+        global btn_status,cell
         k=0
         for n in range(8):
             w=0
             w=i+neighbors[n]
-            if btn_status[w]==1:
+            if cell[w]["Life_Status"]==1:
                 k+=1
         return k
     for i in range(s): 
         k = 0
         if i == s-1: #poniższy kod sprawdza jakich sąsiadów posiada dana komórka
-            neighbors = [-s+sqr, -s+1, 1-s+sqr, -1, -sqr-1, -sqr, -(2*sqr)+1, 1-sqr] 
+            neighbors = [-s+sqr, -s+1, -1-s+sqr, -1, -sqr-1, -sqr, -(2*sqr)+1, 1-sqr] 
         elif i == s-sqr:
-            neighbors = [-s+sqr, 1-s+2*sqr, -s+1+sqr, +1, -1, 1-sqr, -sqr, sqr-1]
+            neighbors = [-s+sqr, -1-s+2*sqr, -s+1+sqr, +1, -1, 1-sqr, -sqr, sqr-1]
         elif i ==0:
             neighbors = [1+s-sqr, s-sqr, s-1, +1, 2*sqr-1, sqr, sqr-1, sqr+1]
         elif i==sqr-1:
@@ -125,24 +122,24 @@ def gl_simulation(): #symulacja "gry w życie"
 
         k = count_neighbors(i, neighbors)
 
-        if btn_status[i] == 0 and k == 3: #zmienia status komórki na żywą "1" jeśli była martwa "0" i ma 3 żywych sąsiadów
-            btn_status_copy[i] = 1
-            btn[i].config(bg="black")
-        elif btn_status[i] == 1: #zmienia status komórki na martwą "0" jeśli była żywa "1" i ma mniej niż 2 lub więcej niż 3 żywych sąsiadów
+        if cell[i]["Life_Status"] == 0 and k == 3: #zmienia status komórki na żywą "1" jeśli była martwa "0" i ma 3 żywych sąsiadów
+            cell_status_copy[i] = 1
+            cell[i]["Button"].config(bg="black")
+        elif cell[i]["Life_Status"] == 1: #zmienia status komórki na martwą "0" jeśli była żywa "1" i ma mniej niż 2 lub więcej niż 3 żywych sąsiadów
             if k != 2 and k != 3:
-                btn_status_copy[i] = 0
-                btn[i].config(bg="white")
+                cell_status_copy[i] = 0
+                cell[i]["Button"].config(bg="white")
             else: #pozostawia komórkę żywą "1" jeśli ma 2 lub 3 żywych sąsiadów
-                btn_status_copy[i] = 1
+                cell_status_copy[i] = 1
     
-    btn_status.clear()
-    btn_status.extend(btn_status_copy)
+    for i in range(s): #przepisuje statusy komórek z kopii
+        cell[i]["Life_Status"] = cell_status_copy[i]
     if active==False: #sprawdza czy symulacja jest aktywna
         return
     window.after(speed,gl_simulation) #rekurencyjne wywołanie funkcji symulacji "gry w życie"
 
 def change_size_fun():
-    global size, sqrt_size, btn, window, grid_window, btn_status, ant_status, ant_placed, change_size_btn, square_size
+    global size, sqrt_size, window, grid_window, ant_placed, change_size_btn, square_size, cell
     if int(size_entry.get())== sqrt_size: #sprawdza czy rozmiar siatki jest taki sam jak poprzedni
         return
     if size_entry.get().isdigit()==False: #sprawdza czy rozmiar siatki jest liczbą
@@ -154,11 +151,7 @@ def change_size_fun():
         return
     size = int(size_entry.get())**2 #zmienia rozmiar siatki na podany przez użytkownika
     sqrt_size=int(size**(1/2))
-    btn.clear() #niszczy poprzednią listę przycisków
-    btn_status.clear() #niszczy poprzednią listę statusów przycisków
-    btn_status = [0] * size #tworzy nową listę statusów przycisków
-    ant_status.clear() #niszczy poprzednią listę statusów mrówki
-    ant_status = [0] * size #tworzy nową listę statusów mrówki
+    cell = [{"Button": None, "Life_Status": 0, "Ant_Status": 0} for _ in range(size)]
     grid_window.destroy() #niszczy poprzednią siatkę przycisków
     grid_window = Toplevel(window)
     if mode=="Life":
@@ -169,9 +162,9 @@ def change_size_fun():
         ant_placed=False
     square_size=350//sqrt_size 
     for i in range(size): #tutaj tworzy sie siatka przycisków
-        btn.append(Button(grid_window,image=foto,width=square_size,height=square_size))
-        btn[i].grid(row=int(i//sqrt_size),column=int(i%sqrt_size),sticky="w")
-        btn[i].config(bg="white", command=click_update(btn[i],i))
+        cell[i]["Button"]=Button(grid_window,image=foto,width=square_size,height=square_size)
+        cell[i]["Button"].grid(row=int(i//sqrt_size),column=int(i%sqrt_size),sticky="w")
+        cell[i]["Button"].config(bg="white", command= lambda btn=cell[i]["Button"], idx=i: click_update(btn,idx))
     
 def start_stop_fun():
     global start_stop, mode, ant_placed, active, clear_grid, change_size_btn, mode_btn 
@@ -197,12 +190,12 @@ def start_stop_fun():
         mode_btn.config(state="normal")
 
 def clear_grid_fun():
-    global btn_status, btn, ant_placed, ant_status
+    global ant_placed, cell
     for i in range(size):
-        btn_status[i]=0
-        if ant_status[i]=="m":
-            ant_status[i]=0
-        btn[i].config(bg="white")
+        cell[i]["Life_Status"]=0
+        if cell[i]["Ant_Status"]=="m":
+            cell[i]["Ant_Status"]=0
+        cell[i]["Button"].config(bg="white")
     if ant_placed==True:
         ant_placed=False
 
@@ -262,8 +255,8 @@ change_speed.grid(sticky="w")
 grid_window = Toplevel(window)
 grid_window.title("Langstone Ant")
 for i in range(size): #tutaj tworzy sie siatka przycisków
-    btn.append(Button(grid_window,image=foto,width=square_size,height=square_size))
-    btn[i].grid(row=int(i//sqrt_size),column=int(i%sqrt_size),sticky="w")
-    btn[i].config(bg="white", command=click_update(btn[i],i))
+    cell[i]["Button"]=Button(grid_window,image=foto,width=square_size,height=square_size)
+    cell[i]["Button"].grid(row=int(i//sqrt_size),column=int(i%sqrt_size),sticky="w")
+    cell[i]["Button"].config(bg="white", command= lambda btn=cell[i]["Button"], idx=i: click_update(btn,idx))
 
 window.mainloop()
