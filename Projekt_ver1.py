@@ -1,7 +1,7 @@
 from tkinter import *
 
 window = Tk()
-window.title("Game of Life")
+window.title("Project Menu")
 menu_frame = Frame(window)
 menu_frame.grid(sticky="w")
 size = 2500 #jest to rozmiar siatki, na początku ustawiony na 50x50
@@ -74,18 +74,17 @@ def click_update(btn,i):   # ta funkcja jest od przycisków na siatce
         global btn_status, ant_status, ant_placed
         if start_stop.cget("text")=="Place Ant": #sprawdza czy napis na przycisku start/stop jest "Place Ant" i jeśli tak to umieszcza mrówkę w komórce na którą kliknięto
             ant_status[i]="m"
-            print(ant_status)
             start_stop.config(text="Start")
             start_stop.config(state="normal")
-        if btn_status[i]==0 and ant_status[i]!="m": #zmienia status komórki na żywą "1" jeśli była martwa "0" i na odwrót
+        if btn_status[i]==0: #zmienia status komórki na żywą "1" jeśli była martwa "0" i na odwrót
             btn_status[i]=1
-        elif btn_status[i]==1 and ant_status[i]!="m":
+        elif btn_status[i]==1:
             btn_status[i]=0
         if btn_status[i]==1:
             btn.config(bg="black") #zmienia kolor komórki na czarny jeśli jest żywa
         if btn_status[i]==0:
             btn.config(bg="white") #zmienia kolor komórki na biały jeśli jest martwa
-        if ant_status[i]=="m":
+        if ant_status[i]=="m" and mode=="Ant": #zmienia kolor komórki na czerwony jeśli jest w niej mrówka
             btn.config(bg="red") #zmienia kolor komórki na czerwony jeśli jest w niej mrówka
     return(lambda: in_func(btn,i)) 
 
@@ -143,7 +142,16 @@ def gl_simulation(): #symulacja "gry w życie"
     window.after(speed,gl_simulation) #rekurencyjne wywołanie funkcji symulacji "gry w życie"
 
 def change_size_fun():
-    global size, sqrt_size, btn, window, grid_window, btn_status, ant_status, ant_placed
+    global size, sqrt_size, btn, window, grid_window, btn_status, ant_status, ant_placed, change_size_btn, square_size
+    if int(size_entry.get())== sqrt_size: #sprawdza czy rozmiar siatki jest taki sam jak poprzedni
+        return
+    if size_entry.get().isdigit()==False: #sprawdza czy rozmiar siatki jest liczbą
+        size_entry.delete(0, END) #jeśli nie to usuwa napis z pola entry
+        size_entry.insert(0, "Insert number!") 
+    if int(size_entry.get())<2 or int(size_entry.get())>99: #sprawdza czy rozmiar siatki mieści się w zakresie 2-99
+        size_entry.delete(0, END) #jeśli nie to usuwa napis z pola entry 
+        size_entry.insert(0, "Wrong size!") #jeśli nie to wstawia napis "2-99" do pola entry
+        return
     size = int(size_entry.get())**2 #zmienia rozmiar siatki na podany przez użytkownika
     sqrt_size=int(size**(1/2))
     btn.clear() #niszczy poprzednią listę przycisków
@@ -153,6 +161,10 @@ def change_size_fun():
     ant_status = [0] * size #tworzy nową listę statusów mrówki
     grid_window.destroy() #niszczy poprzednią siatkę przycisków
     grid_window = Toplevel(window)
+    if mode=="Life":
+        grid_window.title("Game of Life")
+    elif mode=="Ant":
+        grid_window.title("Langstone Ant")
     if ant_placed==True:
         ant_placed=False
     square_size=350//sqrt_size 
@@ -199,10 +211,12 @@ def change_mode_fun():
     if mode_btn.cget("text")=="Langstone Ant Mode":
         mode = "Life"
         mode_btn.config(text="Game of Life Mode")
+        grid_window.title("Game of Life")   
 
     elif mode_btn.cget("text")=="Game of Life Mode":
         mode = "Ant"
         mode_btn.config(text="Langstone Ant Mode")
+        grid_window.title("Langstone Ant")
 
 def change_speed_fun():
     global change_speed, speed
@@ -246,6 +260,7 @@ change_speed.grid(sticky="w")
 
 #poniżej tworzenie siatki przycisków na której będzie odbywać się symulacja 
 grid_window = Toplevel(window)
+grid_window.title("Langstone Ant")
 for i in range(size): #tutaj tworzy sie siatka przycisków
     btn.append(Button(grid_window,image=foto,width=square_size,height=square_size))
     btn[i].grid(row=int(i//sqrt_size),column=int(i%sqrt_size),sticky="w")
