@@ -70,7 +70,7 @@ def ant_simulation():   #to jest funkcja symulacji mrówki
 
 def click_update(btn, i):   # ta funkcja jest od przycisków na siatce
     #funkcja wewnętrzna która zmienia status komórki na żywą "1" lub martwą "0" w zależności od tego czy była żywa czy martwa
-    global btn_status, ant_status, ant_placed, cell
+    global ant_placed, cell
     if start_stop.cget("text")=="Place Ant": #sprawdza czy napis na przycisku start/stop jest "Place Ant" i jeśli tak to umieszcza mrówkę w komórce na którą kliknięto
         cell[i]["Ant_Status"]="m"
         print(cell[i],i)
@@ -86,7 +86,7 @@ def click_update(btn, i):   # ta funkcja jest od przycisków na siatce
 
 
 def gl_simulation(): #symulacja "gry w życie"
-    global btn_status, btn, size, sqrt_size, active, speed, cell
+    global size, sqrt_size, active, speed, cell
     s= size
     sqr= sqrt_size
     cell_status_copy = [0] *s
