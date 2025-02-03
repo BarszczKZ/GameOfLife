@@ -2,7 +2,7 @@
 
 ## Opis
 
-Ten projekt to aplikacja napisana w Pythonie wykorzystująca bibliotekę `tkinter` do symulacji mrówki Langtona oraz gry w życie. Aplikacja pozwala użytkownikowi wybrać rozmiary planszy, ustawić początkową pozycję mrówki, a następnie rozpocząć symulację za pomocą przycisku.
+Ten projekt to aplikacja napisana w Pythonie wykorzystująca bibliotekę `tkinter` do symulacji mrówki Langtona oraz gry w życie. Aplikacja pozwala użytkownikowi wybrać rozmiary planszy, ustawić początkową pozycję mrówki, a następnie rozpocząć symulację za pomocą przycisku. W `main` można uzyskać również dostęp do opisów funkcji, w plikach(.txt), i ich działania, które zostały użyte w programie.
 
 ## Wymagania
 
