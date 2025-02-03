@@ -2,7 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import tkinter as tk
 from tkinter import ttk, messagebox
-#Troszke mnie gpt poprawial :(( z tym checkboxem
+
 class LangtonsAntApp:
     
     def __init__(self, root):
