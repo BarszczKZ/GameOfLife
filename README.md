@@ -27,3 +27,8 @@ pip install tk
 python Projekt_ver1.py
 ```
 
+### Autorzy:
+- Kacper Zawiślański
+- Jan Mikołajczyk
+- Jan Bryłka
+
