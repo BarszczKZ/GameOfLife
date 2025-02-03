@@ -18,13 +18,13 @@ pip install tk
 
 ## Jak uruchomić aplikację?
 
-1. Pobierz plik `Projekt_ver1.py` do swojego lokalnego katalogu.
+1. Pobierz plik `Symulacja.py` do swojego lokalnego katalogu.
 2. Otwórz terminal lub wiersz poleceń.
-3. Przejdź do katalogu, w którym znajduje się plik `Projekt_ver1.py`.
+3. Przejdź do katalogu, w którym znajduje się plik `Symulacja.py`.
 4. Uruchom aplikację za pomocą komendy:
 
 ```sh
-python Projekt_ver1.py
+python Symulacja.py
 ```
 
 ### Autorzy:
