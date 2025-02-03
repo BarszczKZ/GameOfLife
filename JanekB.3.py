@@ -245,7 +245,7 @@ class Simulation:
             self.change_size_btn.config(state="normal")
             self.mode_btn.config(state="normal")
 
-    def clear_grid_fun(self):
+    def clear_grid_fun(self): #Resetuje siatkę, ustawia wszystkie komórki na "martwe", usuwa mrówkę i zmienia kolor tła na biały
         global END
         for i in range(self.size):
             self.cell[i]["Life_Status"] = 0
@@ -255,7 +255,7 @@ class Simulation:
         if self.ant_placed == True:
             self.ant_placed = False
 
-    def change_mode_fun(self):
+    def change_mode_fun(self): #Przełącza tryb symulacji między "Langstone Ant" a "Game of Life", aktualizując etykiety przycisku i tytuł okna
         if self.mode_btn.cget("text") == "Langstone Ant Mode":
             self.mode = "Life"
             self.mode_btn.config(text="Game of Life Mode")
@@ -266,7 +266,7 @@ class Simulation:
             self.mode_btn.config(text="Langstone Ant Mode")
             self.grid_window.title("Langstone Ant")
 
-    def change_speed_fun(self):
+    def change_speed_fun(self): #Zmienia prędkość symulacji na podstawie wyboru
         if self.change_speed.cget("text") == "Speed: 1":
             self.speed = 200
             self.change_speed.config(text="Speed: 2")
