@@ -165,7 +165,7 @@ def change_size_fun():
         return
     size = int(size_entry.get())**2 #zmienia rozmiar siatki na podany przez użytkownika
     sqrt_size=int(size**(1/2))
-    cell = [{"Button": None, "Life_Status": 0, "Ant_Status": 0} for _ in range(size)]
+    cell = [{"Button": None, "Life_Status": 0, "Ant_Status": [0,0,0,0]} for _ in range(size)]
     grid_window.destroy() #niszczy poprzednią siatkę przycisków
     grid_window = Toplevel(window)
     if mode=="Life":
