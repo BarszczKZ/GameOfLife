@@ -1,0 +1,5 @@
+Instrukcja tworzenia wirtualnego środowiska:
+1. Pobierz Anaconda Navigator
+2. Przejdź do zakładki Enviroment
+3. Stwórz tam nowe repozytorium
+4. Następnie do odpalenia skryptu wykorzystaj powershell wbudowany w Anacondzie

@@ -189,7 +189,7 @@ class Simulation:
             return
         self.window.after(self.speed, self.gl_simulation)  # rekurencyjne wywołanie funkcji symulacji "gry w życie"
 
-    def change_size_fun(self):
+    def change_size_fun(self): #Zmmienia rozmiar siatki
         global END
         if self.size_entry.get().isdigit() == False:  # sprawdza czy rozmiar siatki jest liczbą
             self.size_entry.delete(0, END)  # jeśli nie to usuwa napis z pola entry
@@ -221,7 +221,7 @@ class Simulation:
             self.cell[i]["Button"].config(bg="white",
                                           command=lambda btn=self.cell[i]["Button"], idx=i: self.click_update(btn, idx))
 
-    def start_stop_fun(self):
+    def start_stop_fun(self): #Rozpoczyna i zatrzymuje symulacje
         global END
         if self.start_stop.cget("text") == "Start":
             self.active = True
@@ -247,7 +247,7 @@ class Simulation:
             self.change_size_btn.config(state="normal")
             self.mode_btn.config(state="normal")
 
-    def clear_grid_fun(self):
+    def clear_grid_fun(self): #Resetuje siatkę komórek
         global END
         for i in range(self.size):
             self.cell[i]["Life_Status"] = 0
@@ -256,8 +256,8 @@ class Simulation:
             self.cell[i]["Button"].config(bg="white")
         if self.ant_placed == True:
             self.ant_placed = False
-
-    def change_mode_fun(self):
+ 
+    def change_mode_fun(self): #Zmienia tryb symulacji
         if self.mode_btn.cget("text") == "Langstone Ant Mode":
             self.mode = "Life"
             self.mode_btn.config(text="Game of Life Mode")
@@ -268,7 +268,7 @@ class Simulation:
             self.mode_btn.config(text="Langstone Ant Mode")
             self.grid_window.title("Langstone Ant")
 
-    def change_speed_fun(self):
+    def change_speed_fun(self): #Zmienia prędkość symulacji
         if self.change_speed.cget("text") == "Speed: 1":
             self.speed = 200
             self.change_speed.config(text="Speed: 2")
