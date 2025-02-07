@@ -18,13 +18,13 @@ pip install tk
 
 ## Jak uruchomić aplikację?
 
-1. Pobierz plik `Symulacja.py` do swojego lokalnego katalogu.
+1. Pobierz plik `Symulacja2.0.py` do swojego lokalnego katalogu.
 2. Otwórz terminal lub wiersz poleceń.
-3. Przejdź do katalogu, w którym znajduje się plik `Symulacja.py`.
+3. Przejdź do katalogu, w którym znajduje się plik `Symulacja2.0.py`.
 4. Uruchom aplikację za pomocą komendy:
 
 ```sh
-python Symulacja.py
+python Symulacja2.0.py
 ```
 
 ### Autorzy:
