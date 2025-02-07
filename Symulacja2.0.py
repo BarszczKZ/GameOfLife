@@ -23,7 +23,7 @@ def ant_simulation():   #to jest funkcja symulacji mrówki
     def ant_movement(i, j, ant_neighbors): #przesuwa mrówke do właściwego sąsiada i obraca ją
         global orientation, cell
         if cell[i]["Life_Status"]==0:
-            orientation[j]=(orientation[j]+1)%4#orientacja koreluje z miejscem "sąsiada" na liście wiec w zaleznosci od orientacji wybierany jest odpowiedni sąsiad
+            orientation[j]=(orientation[j]+1)%4 #orientacja koreluje z miejscem "sąsiada" na liście wiec w zaleznosci od orientacji wybierany jest odpowiedni sąsiad
             copy.append([i,j,ant_neighbors,1, "black", orientation[j]])
         elif cell[i]["Life_Status"]==1:
             orientation[j]-=1
@@ -56,7 +56,7 @@ def ant_simulation():   #to jest funkcja symulacji mrówki
             ant_neighbors = [+1, sqr, -1, -sqr]
         ant_movement(i, j, ant_neighbors)
     
-    for i in range(size):
+    for i in range(size): #wyszukuje mrówki w siatce
         for j in range(4):
             if cell[i]["Ant_Status"][j]=="m":
                 ant_count+=1
@@ -64,7 +64,7 @@ def ant_simulation():   #to jest funkcja symulacji mrówki
         if ant_count==4:
             ant_count=0
             break
-    for j in range(4):
+    for j in range(4): #zastępuje odpowiednią komórke kopią 
         cell[copy[j][0]+copy[j][2][copy[j][5]]]["Ant_Status"][copy[j][1]]="m"
         cell[copy[j][0]+copy[j][2][copy[j][5]]]["Button"].config(bg=ant_color[copy[j][1]])
         cell[copy[j][0]]["Ant_Status"][copy[j][1]]=0
