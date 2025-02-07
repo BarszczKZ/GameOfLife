@@ -1,5 +1,53 @@
-Instrukcja tworzenia wirtualnego środowiska:
-1. Pobierz Anaconda Navigator
-2. Przejdź do zakładki Enviroment
-3. Stwórz tam nowe repozytorium
-4. Następnie do odpalenia skryptu wykorzystaj powershell wbudowany w Anacondzie
+============================
+Instrukcja: Tworzenie i Aktywacja venv w Windows
+
+Krok 1: Sprawdzenie Instalacji Pythona <<
+
+Otwórz PowerShell i wpisz:
+python --version
+Jeśli Python nie jest poprawnie wykryty, sprawdź jego lokalizację:
+where python
+Jeśli nadal uruchamia się stara wersja, dodaj nową wersję do zmiennych środowiskowych Path.
+
+Krok 2: Instalacja venv i pip <<
+
+Jeśli Python nie ma wbudowanego venv, spróbuj:
+python -m ensurepip --default-pip
+python -m pip install --upgrade pip setuptools wheel
+Jeśli pip nie działa, pobierz get-pip.py z:
+https://bootstrap.pypa.io/get-pip.py
+I uruchom:
+python get-pip.py
+
+Krok 3: Tworzenie Wirtualnego Środowiska <<
+
+Przejdź do folderu, w którym chcesz utworzyć środowisko:
+Set-Location C:\Users\TwojaNazwa\Venv
+Następnie utwórz środowisko:
+python -m venv tutorial-env
+
+Krok 4: Aktywacja Wirtualnego Środowiska <<
+
+Jeśli pojawi się błąd:
+"File cannot be loaded because running scripts is disabled on this system."
+Zmień politykę uruchamiania skryptów:
+Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy RemoteSigned
+Następnie aktywuj środowisko:
+tutorial-env\Scripts\Activate
+Dla cmd wpisz:
+tutorial-env\Scripts\activate.bat
+Po aktywacji zobaczysz zmianę w ścieżce:
+(tutorial-env) PS C:\Users\TwojaNazwa\Venv>
+
+Krok 5: Instalowanie Pakietów <<
+
+Po aktywacji możesz instalować pakiety:
+pip install numpy pandas
+
+Krok 6: Dezaktywacja Środowiska <<
+
+Aby wyłączyć venv, wpisz:
+deactivate
+
+Dzięki temu masz czyste i odizolowane środowisko do pracy! 🚀
+
